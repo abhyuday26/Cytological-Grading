@@ -745,10 +745,10 @@ def generate_visualizations(df, X_train_pca, X_val_pca, train_idx, val_idx,
 # ============================================================
 # 10. SAVE OUTPUTS
 # ============================================================
-def save_outputs(df, case_df, results, best_model_name, all_features):
-    """Save graded cells CSV, case grades CSV, and metrics summary."""
+def save_outputs(df, case_df, results, best_model_name, all_features, scaler=None, pca=None, cluster_to_grade=None):
+    """Save graded cells CSV, case grades CSV, metrics summary, and serialized model .pkl files."""
     print("=" * 60)
-    print("STEP 10: SAVING OUTPUTS")
+    print("STEP 10: SAVING OUTPUTS & SERIALIZED MODELS")
     print("=" * 60)
 
     # Save graded cells
@@ -783,6 +783,26 @@ def save_outputs(df, case_df, results, best_model_name, all_features):
         })
     pd.DataFrame(metrics_rows).to_csv(metrics_path, index=False)
     print(f"  [OK] Saved: {metrics_path}")
+
+    # Save serialized inference pipeline (Scaler, PCA, Best Model & Grade Mapping)
+    import joblib
+    models_dir = os.path.join(OUTPUT_DIR, 'models')
+    os.makedirs(models_dir, exist_ok=True)
+    
+    best_res = results[best_model_name]
+    model_artifact = {
+        'model_name': best_model_name,
+        'model_object': best_res['model'],
+        'cluster_centers': best_res.get('centers', getattr(best_res['model'], 'cluster_centers_', None)),
+        'scaler': scaler,
+        'pca': pca,
+        'features': all_features,
+        'cluster_to_grade_mapping': cluster_to_grade
+    }
+    
+    pkl_path = os.path.join(models_dir, 'cytological_grading_model.pkl')
+    joblib.dump(model_artifact, pkl_path)
+    print(f"  [OK] Saved serialized pipeline model: {pkl_path}")
 
     print()
 
@@ -827,8 +847,8 @@ def main():
     generate_visualizations(df, X_train_pca, X_val_pca, train_idx, val_idx,
                             all_features, case_df, results, best_model_name)
 
-    # Step 10: Save Outputs
-    save_outputs(df, case_df, results, best_model_name, all_features)
+    # Step 10: Save Outputs & Serialized Model
+    save_outputs(df, case_df, results, best_model_name, all_features, scaler, pca, cluster_to_grade)
 
     # Final Summary
     print("=" * 60)
