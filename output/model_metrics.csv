@@ -1,0 +1,4 @@
+Model,Train_Silhouette,Val_Silhouette,Train_CH,Val_CH,Train_DB,Val_DB,Is_Best
+K-Means,0.2705,0.2678,168.96,53.9,1.2594,1.2545,False
+Hierarchical,0.2498,0.2757,146.4,54.6,1.3641,1.24,True
+GMM,0.2244,0.2488,134.92,47.47,1.4774,1.3489,False

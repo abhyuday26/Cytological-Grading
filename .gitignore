@@ -1,0 +1,17 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Root duplicate data
+Results Image J.csv
+
+# Output & temporary data if needed
+*.log
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+venv/
+env/
+ENV/
