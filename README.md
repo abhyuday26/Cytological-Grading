@@ -4,7 +4,7 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.0%2B-orange.svg)](https://scikit-learn.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An automated machine learning framework for **3-tier cytological grading** (Grade 1: Well-differentiated, Grade 2: Moderately-differentiated, Grade 3: Poorly-differentiated) using nuclear morphometric parameters derived from ImageJ microscopy analysis.
+An automated machine learning framework for **3-tier cytological grading** (Grade 1: Low grade, Grade 2: Intermediate grade, Grade 3: High grade) using nuclear morphometric parameters derived from ImageJ microscopy analysis.
 
 The system utilizes an **unsupervised learning paradigm** evaluated on a **75% Train / 25% Validation Holdout split**, supported by Principal Component Analysis (PCA) and rigorous statistical significance testing ($p < 0.001$).
 
@@ -60,9 +60,9 @@ The model categorizes cells into 3 distinct cytological tiers based on physical 
 
 | Grade | Description | Mean Area ($\mu m^2$) | Mean Circularity | Mean Roundness | Mean Irregularity Index | Morphometric Characteristics |
 |---|---|---|---|---|---|---|
-| **Grade 1** | Well-differentiated | $82.42$ | $0.7940$ | $0.7817$ | $0.2060$ | Small, smooth, highly regular round nuclei |
-| **Grade 2** | Moderately-differentiated | **$231.17$** | $0.7935$ | $0.8122$ | $0.2065$ | **Nuclear enlargement (Macro-nuclei)** |
-| **Grade 3** | Poorly-differentiated | $82.36$ | **$0.6775$** | **$0.6162$** | **$0.3225$** | **Severe shape distortion & jagged edges** |
+| **Grade 1** | Low grade | $82.42$ | $0.7940$ | $0.7817$ | $0.2060$ | Small, smooth, highly regular round nuclei |
+| **Grade 2** | Intermediate grade | **$231.17$** | $0.7935$ | $0.8122$ | $0.2065$ | **Nuclear enlargement (Macro-nuclei)** |
+| **Grade 3** | High grade | $82.36$ | **$0.6775$** | **$0.6162$** | **$0.3225$** | **Severe shape distortion & jagged edges** |
 
 > All features show statistically significant separation across grades ($p < 10^{-12}$ on ANOVA & Kruskal-Wallis tests).
 

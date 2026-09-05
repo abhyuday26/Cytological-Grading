@@ -61,9 +61,9 @@ sns.set_style("whitegrid")
 
 GRADE_COLORS = {1: '#2ecc71', 2: '#f39c12', 3: '#e74c3c'}
 GRADE_LABELS = {
-    1: 'Grade 1\n(Well-differentiated)',
-    2: 'Grade 2\n(Moderately-differentiated)',
-    3: 'Grade 3\n(Poorly-differentiated)'
+    1: 'Grade 1\n(Low grade)',
+    2: 'Grade 2\n(Intermediate grade)',
+    3: 'Grade 3\n(High grade)'
 }
 
 
@@ -510,9 +510,9 @@ def assign_grades(df, results, best_model_name, X_train_pca, X_val_pca,
     df['Cluster'] = all_labels
     df['Grade'] = df['Cluster'].map(cluster_to_grade)
     df['Grade_Label'] = df['Grade'].map({
-        1: 'Well-differentiated',
-        2: 'Moderately-differentiated',
-        3: 'Poorly-differentiated'
+        1: 'Low grade',
+        2: 'Intermediate grade',
+        3: 'High grade'
     })
     df['Split'] = 'Train'
     df.loc[val_idx, 'Split'] = 'Validation'
@@ -545,9 +545,9 @@ def compute_case_grades(df):
         n_slides = case_data['Slide number'].nunique()
 
         grade_label = {
-            1: 'Well-differentiated',
-            2: 'Moderately-differentiated',
-            3: 'Poorly-differentiated'
+            1: 'Low grade',
+            2: 'Intermediate grade',
+            3: 'High grade'
         }[majority_grade]
 
         case_grades.append({
@@ -691,7 +691,7 @@ def generate_visualizations(df, X_train_pca, X_val_pca, train_idx, val_idx,
     ax1.set_ylabel('Number of Cases')
     ax1.set_title('Case-Level Grade Distribution')
     ax1.set_xticks([1, 2, 3])
-    ax1.set_xticklabels(['Grade 1\n(Well-diff.)', 'Grade 2\n(Mod-diff.)', 'Grade 3\n(Poorly-diff.)'])
+    ax1.set_xticklabels(['Grade 1\n(Low grade)', 'Grade 2\n(Intermediate)', 'Grade 3\n(High grade)'])
 
     # Stacked bar of grade proportions per case
     case_df_sorted = case_df.sort_values('Case_No')
