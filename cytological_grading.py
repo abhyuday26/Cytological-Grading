@@ -2,9 +2,9 @@
 AI-Based Cytological Grading Algorithm
 =======================================
 Unsupervised clustering approach to classify cells into 3-tier cytological grades:
-  - Grade 1: Well-differentiated (small, regular nuclei)
-  - Grade 2: Moderately-differentiated (intermediate features)
-  - Grade 3: Poorly-differentiated (large, irregular nuclei)
+  - Grade 1: Low grade (small, regular nuclei)
+  - Grade 2: Intermediate grade (intermediate features)
+  - Grade 3: High grade (large, irregular nuclei)
 
 Uses 75% training / 25% validation split.
 Compares K-Means, Hierarchical Clustering, and Gaussian Mixture Models.
