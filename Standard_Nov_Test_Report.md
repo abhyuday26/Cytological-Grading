@@ -15,9 +15,9 @@ This AI system establishes a quantitative, objective, and reproducible morphomet
 
 | Cytological Grade | Clinical Morphological Phenotype | Predominant Nuclear Criteria | Nuclear Area ($\mu m^2$) | Circularity / Contour | Nuclear Atypia Index |
 |:---|:---|:---|:---:|:---:|:---:|
-| 🟢 **Grade 1 (Low Grade)** | Uniform, monomorphic, small round nuclei | Low size variability, smooth circular margins | $82.2 \pm 20.3$ | $0.824 \pm 0.04$ | Low ($0.176$) |
-| 🟡 **Grade 2 (Intermediate)** | Significant nuclear enlargement (Macro-nuclei) | Marked enlargement ($>2.3\times$), relatively preserved contours | $190.0 \pm 42.1$ | $0.803 \pm 0.05$ | Mild-Moderate ($0.197$) |
-| 🔴 **Grade 3 (High Grade)** | Severe shape distortion, marked nuclear pleomorphism | Jagged/irregular borders, high pleomorphism, contour defects | $89.9 \pm 26.8$ | $0.715 \pm 0.06$ | High ($0.285$) |
+| 🟢 **Grade 1 (Low Grade)** | Uniform, monomorphic, small round nuclei | Low size variability, smooth circular margins | $82.2 \pm 31.3$ | $0.824 \pm 0.05$ | Low ($0.176 \pm 0.05$) |
+| 🟡 **Grade 2 (Intermediate)** | Significant nuclear enlargement (Macro-nuclei) | Marked enlargement ($>2.3\times$), relatively preserved contours | $190.0 \pm 33.4$ | $0.803 \pm 0.07$ | Mild-Moderate ($0.197 \pm 0.07$) |
+| 🔴 **Grade 3 (High Grade)** | Severe shape distortion, marked nuclear pleomorphism | Jagged/irregular borders, high pleomorphism, contour defects | $89.9 \pm 37.7$ | $0.715 \pm 0.06$ | High ($0.285 \pm 0.06$) |
 
 > **Key Morphometric Insight**:
 > - **Grade 2 differentiation** is primarily driven by **nuclear size expansion (Area / Nuclear Size Index)** ($F = 321.91, p < 10^{-90}$).
