@@ -97,28 +97,56 @@ Using the gold-standard biopsy correlations provided in `results correlation Cyt
 
 ### 🔲 Confusion Matrices (Nottingham Score vs AI Grade):
 
-```
-1. MAJORITY VOTING vs NOTTINGHAM SCORE:
-                  AI Grade 1   AI Grade 2   AI Grade 3
-Nottingham G1         8            0            1
-Nottingham G2        11            1            0
-Nottingham G3         3            2            0
-  - Overall Accuracy: 34.62% | Cohen's Kappa: -0.0114 | Spearman Rho: 0.1938
+#### 1. Cutoff 25% (Recommended Clinical Standard) vs Nottingham Score
+*Priority rule: if Grade 3 % $\ge 25\% \rightarrow$ Grade 3; else if Grade 2 % $\ge 25\% \rightarrow$ Grade 2; else $\rightarrow$ Grade 1*
 
-2. CUTOFF 25% (RECOMMENDED) vs NOTTINGHAM SCORE:
-                  AI Grade 1   AI Grade 2   AI Grade 3
-Nottingham G1         5            0            4
-Nottingham G2         4            1            7
-Nottingham G3         1            1            3
-  - Overall Accuracy: 34.62% | Cohen's Kappa: +0.1016 | Spearman Rho: 0.1967
+| Histological Nottingham Score | AI Grade 1 (Low) | AI Grade 2 (Intermediate) | AI Grade 3 (High) | Total Cases |
+|:---|:---:|:---:|:---:|:---:|
+| **Nottingham Grade 1 (Low)** | **5** | 0 | 4 | **9** |
+| **Nottingham Grade 2 (Intermediate)** | 4 | **1** | 7 | **12** |
+| **Nottingham Grade 3 (High)** | 1 | 1 | **3** | **5** |
+| **Total Predicted** | **10** | **2** | **14** | **26** |
 
-3. CUTOFF 10% (HIGH SENSITIVITY) vs NOTTINGHAM SCORE:
-                  AI Grade 1   AI Grade 2   AI Grade 3
-Nottingham G1         1            0            8
-Nottingham G2         1            1           10
-Nottingham G3         0            2            3
-  - Overall Accuracy: 19.23% | Cohen's Kappa: -0.0561 | Spearman Rho: -0.1957
-```
+- **Overall Diagnostic Accuracy**: **34.62%**
+- **Cohen's Kappa ($\kappa$)**: **+0.1016** (Positive agreement)
+- **Spearman Correlation ($\rho$)**: **0.1967** ($p = 0.3355$)
+- **High Grade (Grade 3) Detection Sensitivity**: **60.0%** ($3/5$ true high-grade cancers identified)
+- **Intermediate/High (Grade 2+) Detection Sensitivity**: **70.59%** ($12/17$ true non-low grade cases identified)
+
+---
+
+#### 2. Majority Voting (Baseline) vs Nottingham Score
+*Standard rule: Grade assigned by highest cell count among the 25 cells*
+
+| Histological Nottingham Score | AI Grade 1 (Low) | AI Grade 2 (Intermediate) | AI Grade 3 (High) | Total Cases |
+|:---|:---:|:---:|:---:|:---:|
+| **Nottingham Grade 1 (Low)** | **8** | 0 | 1 | **9** |
+| **Nottingham Grade 2 (Intermediate)** | 11 | **1** | 0 | **12** |
+| **Nottingham Grade 3 (High)** | 3 | 2 | **0** | **5** |
+| **Total Predicted** | **22** | **3** | **1** | **26** |
+
+- **Overall Diagnostic Accuracy**: **34.62%**
+- **Cohen's Kappa ($\kappa$)**: **-0.0114**
+- **Spearman Correlation ($\rho$)**: **0.1938** ($p = 0.3429$)
+- **High Grade (Grade 3) Detection Sensitivity**: **0.0%** (All 5 high-grade cancers missed)
+
+---
+
+#### 3. Cutoff 10% (High Sensitivity / Screening) vs Nottingham Score
+*Priority rule: if Grade 3 % $\ge 10\% \rightarrow$ Grade 3; else if Grade 2 % $\ge 10\% \rightarrow$ Grade 2; else $\rightarrow$ Grade 1*
+
+| Histological Nottingham Score | AI Grade 1 (Low) | AI Grade 2 (Intermediate) | AI Grade 3 (High) | Total Cases |
+|:---|:---:|:---:|:---:|:---:|
+| **Nottingham Grade 1 (Low)** | **1** | 0 | 8 | **9** |
+| **Nottingham Grade 2 (Intermediate)** | 1 | **1** | 10 | **12** |
+| **Nottingham Grade 3 (High)** | 0 | 2 | **3** | **5** |
+| **Total Predicted** | **2** | **3** | **21** | **26** |
+
+- **Overall Diagnostic Accuracy**: **19.23%**
+- **Cohen's Kappa ($\kappa$)**: **-0.0561**
+- **High Grade (Grade 3) Detection Sensitivity**: **60.0%** ($3/5$)
+- **False Positive Rate for Grade 3 on Low-Grade Cases**: **88.89%** ($8/9$ low-grade cases overcalled as Grade 3)
+
 
 > **Pathologist Interpretation**:
 > - Under **Majority Voting**, histological Grade 3 tumors were misclassified as Low Grade in 3/5 cases and Intermediate in 2/5 cases because only a subset of cells showed high pleomorphism.
