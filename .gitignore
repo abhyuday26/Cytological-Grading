@@ -15,3 +15,6 @@ Thumbs.db
 venv/
 env/
 ENV/
+
+# Local decision and knowledge base (not committed)
+decision.md
