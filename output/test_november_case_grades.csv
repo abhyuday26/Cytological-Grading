@@ -1,27 +1,27 @@
-Case_No,Total_Cells,N_Slides,Grade_1_Count,Grade_2_Count,Grade_3_Count,Grade_1_Pct,Grade_2_Pct,Grade_3_Pct,Final_Grade,Grade_Label
-13,25,5,15,0,10,60.0,0.0,40.0,1,Low grade
-14,25,5,9,6,10,36.0,24.0,40.0,3,High grade
-146,25,5,11,6,8,44.0,24.0,32.0,1,Low grade
-179,25,5,13,5,7,52.0,20.0,28.0,1,Low grade
-3176,25,5,21,0,4,84.0,0.0,16.0,1,Low grade
-3189,25,5,15,4,6,60.0,16.0,24.0,1,Low grade
-3302,25,5,10,13,2,40.0,52.0,8.0,2,Intermediate grade
-3343,25,5,23,0,2,92.0,0.0,8.0,1,Low grade
-3479,25,5,21,0,4,84.0,0.0,16.0,1,Low grade
-3531,25,5,21,0,4,84.0,0.0,16.0,1,Low grade
-3576,25,5,12,3,10,48.0,12.0,40.0,1,Low grade
-3590,25,5,17,5,3,68.0,20.0,12.0,1,Low grade
-3604,25,5,21,0,4,84.0,0.0,16.0,1,Low grade
-3704,25,5,21,0,4,84.0,0.0,16.0,1,Low grade
-3733,25,5,19,0,6,76.0,0.0,24.0,1,Low grade
-3736,25,5,7,11,7,28.0,44.0,28.0,2,Intermediate grade
-3739,25,5,20,1,4,80.0,4.0,16.0,1,Low grade
-3925,25,5,16,3,6,64.0,12.0,24.0,1,Low grade
-3959,25,5,21,0,4,84.0,0.0,16.0,1,Low grade
-3960,25,5,18,3,4,72.0,12.0,16.0,1,Low grade
-4026,25,5,22,0,3,88.0,0.0,12.0,1,Low grade
-4066,25,5,19,1,5,76.0,4.0,20.0,1,Low grade
-4087,25,5,16,0,9,64.0,0.0,36.0,1,Low grade
-4163,25,5,15,6,4,60.0,24.0,16.0,1,Low grade
-4306,25,5,22,1,2,88.0,4.0,8.0,1,Low grade
-4367,25,5,20,1,4,80.0,4.0,16.0,1,Low grade
+Case_No,Total_Cells,N_Slides,Grade_1_Count,Grade_2_Count,Grade_3_Count,Grade_1_Pct,Grade_2_Pct,Grade_3_Pct,Final_Grade,Grade_Label,Grade_Cutoff25,Grade_Cutoff10,Grade_Label_Cutoff25,Grade_Label_Cutoff10
+13,25,5,15,0,10,60.0,0.0,40.0,1,Low grade,3,3,High grade,High grade
+14,25,5,9,6,10,36.0,24.0,40.0,3,High grade,3,3,High grade,High grade
+146,25,5,11,6,8,44.0,24.0,32.0,1,Low grade,3,3,High grade,High grade
+179,25,5,13,5,7,52.0,20.0,28.0,1,Low grade,3,3,High grade,High grade
+3176,25,5,21,0,4,84.0,0.0,16.0,1,Low grade,1,3,Low grade,High grade
+3189,25,5,15,4,6,60.0,16.0,24.0,1,Low grade,1,3,Low grade,High grade
+3302,25,5,10,13,2,40.0,52.0,8.0,2,Intermediate grade,2,2,Intermediate grade,Intermediate grade
+3343,25,5,23,0,2,92.0,0.0,8.0,1,Low grade,1,1,Low grade,Low grade
+3479,25,5,21,0,4,84.0,0.0,16.0,1,Low grade,1,3,Low grade,High grade
+3531,25,5,21,0,4,84.0,0.0,16.0,1,Low grade,1,3,Low grade,High grade
+3576,25,5,12,3,10,48.0,12.0,40.0,1,Low grade,3,3,High grade,High grade
+3590,25,5,17,5,3,68.0,20.0,12.0,1,Low grade,1,3,Low grade,High grade
+3604,25,5,21,0,4,84.0,0.0,16.0,1,Low grade,1,3,Low grade,High grade
+3704,25,5,21,0,4,84.0,0.0,16.0,1,Low grade,1,3,Low grade,High grade
+3733,25,5,19,0,6,76.0,0.0,24.0,1,Low grade,1,3,Low grade,High grade
+3736,25,5,7,11,7,28.0,44.0,28.0,2,Intermediate grade,3,3,High grade,High grade
+3739,25,5,20,1,4,80.0,4.0,16.0,1,Low grade,1,3,Low grade,High grade
+3925,25,5,16,3,6,64.0,12.0,24.0,1,Low grade,1,3,Low grade,High grade
+3959,25,5,21,0,4,84.0,0.0,16.0,1,Low grade,1,3,Low grade,High grade
+3960,25,5,18,3,4,72.0,12.0,16.0,1,Low grade,1,3,Low grade,High grade
+4026,25,5,22,0,3,88.0,0.0,12.0,1,Low grade,1,3,Low grade,High grade
+4066,25,5,19,1,5,76.0,4.0,20.0,1,Low grade,1,3,Low grade,High grade
+4087,25,5,16,0,9,64.0,0.0,36.0,1,Low grade,3,3,High grade,High grade
+4163,25,5,15,6,4,60.0,24.0,16.0,1,Low grade,1,3,Low grade,High grade
+4306,25,5,22,1,2,88.0,4.0,8.0,1,Low grade,1,1,Low grade,Low grade
+4367,25,5,20,1,4,80.0,4.0,16.0,1,Low grade,1,3,Low grade,High grade

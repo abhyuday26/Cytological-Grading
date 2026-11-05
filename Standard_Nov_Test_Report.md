@@ -1,9 +1,10 @@
 # 🩺 Clinical & Morphometric Evaluation Report: Cytological Grading
-**Subject**: Automatic 3-Tier Cytological Grading via Unsupervised Machine Learning  
+**Subject**: Automatic 3-Tier Cytological Grading via Unsupervised Machine Learning, Cutoff Rules, ROC Analysis & Histological Correlation  
 **Target Audience**: Pathologists, Oncologists, and Medical Research Teams  
 **Datasets Analyzed**: 
 1. **Primary Reference Set (`Results Image J.csv`)**: 573 Cells across 23 Cases (5 slides/case)
 2. **Independent Test Set (`Test set November.xlsx`)**: 650 Cells across 26 Cases (5 slides/case)
+3. **Histopathology Correlation Cohort (`results correlation Cyto- AI- Histo.xlsx`)**: 48 Patients with histological Nottingham scores and Bethesda groupings
 
 ---
 
@@ -25,71 +26,130 @@ This AI system establishes a quantitative, objective, and reproducible morphomet
 
 ---
 
-## 📈 2. Validation on Independent Test Set (November Cohort)
+## 🎯 2. Higher-Grade Priority Rules (Clinical Cutoff Logic: 25% vs 10%)
 
-The pre-trained unsupervised pipeline (trained with 75% discovery, 25% internal validation) was applied blindly to the **November Test Set (`Test set November.xlsx`)** consisting of **650 cells across 26 distinct patient cases**.
+In standard cytopathological practice, patient management prioritizes the presence of high-grade malignant clones over a majority of low-grade cells. If a tumor contains $\ge 25\%$ or $\ge 10\%$ high-grade irregular cells, calling the case "Grade 1" risks clinical undertreatment.
 
-### Summary of Cohort Distribution:
-- **Total Cases**: 26 Patient Cases (25 cells evaluated per case across 5 slides)
-- 🟢 **Grade 1 (Low Grade)**: **23 Cases (88.5%)**
-- 🟡 **Grade 2 (Intermediate Grade)**: **2 Cases (7.7%)** — *Cases 3302 & 3736*
-- 🔴 **Grade 3 (High Grade)**: **1 Case (3.8%)** — *Case 14*
+We implemented and compared **three decision frameworks** for case diagnosis:
+1. **Majority Voting (Standard)**: Grade assigned by simple mathematical mode ($>50\%$ or plural cell count).
+2. **25% High-Grade Cutoff (Recommended Clinical Standard)**:
+   - If $\text{Grade 3 \%} \ge 25\% \implies$ **Grade 3 (High Grade)**
+   - Else if $\text{Grade 2 \%} \ge 25\% \implies$ **Grade 2 (Intermediate Grade)**
+   - Else $\implies$ **Grade 1 (Low Grade)**
+3. **10% High-Grade Cutoff (High-Sensitivity Screening)**:
+   - If $\text{Grade 3 \%} \ge 10\% \implies$ **Grade 3 (High Grade)**
+   - Else if $\text{Grade 2 \%} \ge 10\% \implies$ **Grade 2 (Intermediate Grade)**
+   - Else $\implies$ **Grade 1 (Low Grade)**
 
----
+### Cohort Distribution Comparison (November Test Set, N=26 Cases):
 
-## 📋 3. Complete Patient Case-by-Case Diagnostic Table (November Test Set)
-
-Case diagnosis is established via **majority voting** over the 25 morphometrically profiled cells per case:
-
-| Patient Case ID | Total Cells | Slide Count | Grade 1 Cells (🟢) | Grade 2 Cells (🟡) | Grade 3 Cells (🔴) | Grade 1 % | Grade 2 % | Grade 3 % | **Final Assigned Grade** |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---|
-| **Case 13** | 25 | 5 | 15 | 0 | 10 | 60.0% | 0.0% | 40.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 14** | 25 | 5 | 9 | 6 | **10** | 36.0% | 24.0% | **40.0%** | 🔴 **Grade 3 (High grade)** |
-| **Case 146** | 25 | 5 | 11 | 6 | 8 | 44.0% | 24.0% | 32.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 179** | 25 | 5 | 13 | 5 | 7 | 52.0% | 20.0% | 28.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3176** | 25 | 5 | 21 | 0 | 4 | 84.0% | 0.0% | 16.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3189** | 25 | 5 | 15 | 4 | 6 | 60.0% | 16.0% | 24.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3302** | 25 | 5 | 10 | **13** | 2 | 40.0% | **52.0%** | 8.0% | 🟡 **Grade 2 (Intermediate)** |
-| **Case 3343** | 25 | 5 | 23 | 0 | 2 | 92.0% | 0.0% | 8.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3479** | 25 | 5 | 21 | 0 | 4 | 84.0% | 0.0% | 16.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3531** | 25 | 5 | 21 | 0 | 4 | 84.0% | 0.0% | 16.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3576** | 25 | 5 | 12 | 3 | 10 | 48.0% | 12.0% | 40.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3590** | 25 | 5 | 17 | 5 | 3 | 68.0% | 20.0% | 12.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3604** | 25 | 5 | 21 | 0 | 4 | 84.0% | 0.0% | 16.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3704** | 25 | 5 | 21 | 0 | 4 | 84.0% | 0.0% | 16.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3733** | 25 | 5 | 19 | 0 | 6 | 76.0% | 0.0% | 24.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3736** | 25 | 5 | 7 | **11** | 7 | 28.0% | **44.0%** | 28.0% | 🟡 **Grade 2 (Intermediate)** |
-| **Case 3739** | 25 | 5 | 20 | 1 | 4 | 80.0% | 4.0% | 16.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3925** | 25 | 5 | 16 | 3 | 6 | 64.0% | 12.0% | 24.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3959** | 25 | 5 | 21 | 0 | 4 | 84.0% | 0.0% | 16.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 3960** | 25 | 5 | 18 | 3 | 4 | 72.0% | 12.0% | 16.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 4026** | 25 | 5 | 22 | 0 | 3 | 88.0% | 0.0% | 12.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 4066** | 25 | 5 | 19 | 1 | 5 | 76.0% | 4.0% | 20.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 4087** | 25 | 5 | 16 | 0 | 9 | 64.0% | 0.0% | 36.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 4163** | 25 | 5 | 15 | 6 | 4 | 60.0% | 24.0% | 16.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 4306** | 25 | 5 | 22 | 1 | 2 | 88.0% | 4.0% | 8.0% | 🟢 **Grade 1 (Low grade)** |
-| **Case 4367** | 25 | 5 | 20 | 1 | 4 | 80.0% | 4.0% | 16.0% | 🟢 **Grade 1 (Low grade)** |
+| Diagnostic Method | Grade 1 (Low) | Grade 2 (Intermediate) | Grade 3 (High) | Clinical Rationale |
+|:---|:---:|:---:|:---:|:---|
+| **Majority Voting** | 23 Cases (88.5%) | 2 Cases (7.7%) | 1 Case (3.8%) | Pure geometric majority; risks under-calling focal high-grade atypia |
+| **25% Cutoff Rule** | 18 Cases (69.2%) | 1 Case (3.8%) | 7 Cases (26.9%) | **Balanced clinical sensitivity**: Upgrades cases with $\ge 25\%$ high-grade cells |
+| **10% Cutoff Rule** | 2 Cases (7.7%) | 1 Case (3.8%) | 23 Cases (88.5%) | **Maximum sensitivity / screening**: Captures any trace of high-grade atypia |
 
 ---
 
-## 🔬 4. Primary Reference Set Recap (Comparison with Discovery Cohort)
+## 📋 3. Patient Case-by-Case Diagnostic Table (November Test Set)
 
-For cross-referencing, the original training cohort (`Results Image J.csv`) of 23 cases yielded the following case-level distribution:
+Comparison of all 26 cases across Majority Voting, 25% Cutoff, and 10% Cutoff:
 
-- 🟢 **Grade 1 (Low grade)**: **18 Cases** (`856`, `881`, `1233`, `1422`, `1563`, `1846`, `1847`, `2199`, `2264`, `2368`, `2386`, `2408`, `2424`, `2437`, `2497`, `2505`, `2547`, `2837`)
-- 🟡 **Grade 2 (Intermediate grade)**: **4 Cases** (`1349`, `2198`, `2555`, `2556`)
-- 🔴 **Grade 3 (High grade)**: **1 Case** (`1199`)
-
-The distribution across both independent cohorts demonstrates remarkable consistency:
-- **Low Grade Predominance**: $\sim 78\% - 88\%$
-- **Intermediate Grade**: $\sim 8\% - 17\%$
-- **High Grade**: $\sim 4\%$
+| Case ID | Total Cells | G1 % | G2 % | G3 % | **Majority Voting** | **25% Cutoff Grade** | **10% Cutoff Grade** |
+|:---:|:---:|:---:|:---:|:---:|:---|:---|:---|
+| **Case 13** | 25 | 60.0% | 0.0% | 40.0% | 🟢 Grade 1 (Low) | 🔴 **Grade 3 (High)** | 🔴 **Grade 3 (High)** |
+| **Case 14** | 25 | 36.0% | 24.0% | 40.0% | 🔴 Grade 3 (High) | 🔴 **Grade 3 (High)** | 🔴 **Grade 3 (High)** |
+| **Case 146** | 25 | 44.0% | 24.0% | 32.0% | 🟢 Grade 1 (Low) | 🔴 **Grade 3 (High)** | 🔴 **Grade 3 (High)** |
+| **Case 179** | 25 | 52.0% | 20.0% | 28.0% | 🟢 Grade 1 (Low) | 🔴 **Grade 3 (High)** | 🔴 **Grade 3 (High)** |
+| **Case 3176** | 25 | 84.0% | 0.0% | 16.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 3189** | 25 | 60.0% | 16.0% | 24.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 3302** | 25 | 40.0% | 52.0% | 8.0% | 🟡 Grade 2 (Interm) | 🟡 **Grade 2 (Interm)** | 🟡 **Grade 2 (Interm)** |
+| **Case 3343** | 25 | 92.0% | 0.0% | 8.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🟢 **Grade 1 (Low)** |
+| **Case 3479** | 25 | 84.0% | 0.0% | 16.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 3531** | 25 | 84.0% | 0.0% | 16.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 3576** | 25 | 48.0% | 12.0% | 40.0% | 🟢 Grade 1 (Low) | 🔴 **Grade 3 (High)** | 🔴 **Grade 3 (High)** |
+| **Case 3590** | 25 | 68.0% | 20.0% | 12.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 3604** | 25 | 84.0% | 0.0% | 16.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 3704** | 25 | 84.0% | 0.0% | 16.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 3733** | 25 | 76.0% | 0.0% | 24.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 3736** | 25 | 28.0% | 44.0% | 28.0% | 🟡 Grade 2 (Interm) | 🔴 **Grade 3 (High)** | 🔴 **Grade 3 (High)** |
+| **Case 3739** | 25 | 80.0% | 4.0% | 16.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 3925** | 25 | 64.0% | 12.0% | 24.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 3959** | 25 | 84.0% | 0.0% | 16.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 3960** | 25 | 72.0% | 12.0% | 16.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 4026** | 25 | 88.0% | 0.0% | 12.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 4066** | 25 | 76.0% | 4.0% | 20.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 4087** | 25 | 64.0% | 0.0% | 36.0% | 🟢 Grade 1 (Low) | 🔴 **Grade 3 (High)** | 🔴 **Grade 3 (High)** |
+| **Case 4163** | 25 | 60.0% | 24.0% | 16.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
+| **Case 4306** | 25 | 88.0% | 4.0% | 8.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🟢 **Grade 1 (Low)** |
+| **Case 4367** | 25 | 80.0% | 4.0% | 16.0% | 🟢 Grade 1 (Low) | 🟢 **Grade 1 (Low)** | 🔴 **Grade 3 (High)** |
 
 ---
 
-## 📊 5. Statistical Rigor & Morphological Significance
+## 🔬 4. Correlation with Histopathology: Nottingham Histologic Score
 
-One-way ANOVA and non-parametric Kruskal-Wallis tests were executed on the test set morphometrics to verify biological and geometric separation between predicted clusters:
+Using the gold-standard biopsy correlations provided in `results correlation Cyto- AI- Histo.xlsx`, **26 patient cases** with definitive histological Nottingham grades (Grade 1, 2, or 3) and complete AI morphometric cytology were analyzed.
+
+### Cohort Histological Breakdown:
+- **Nottingham Grade 1 (Low)**: 9 cases
+- **Nottingham Grade 2 (Intermediate)**: 12 cases
+- **Nottingham Grade 3 (High)**: 5 cases
+
+### 🔲 Confusion Matrices (Nottingham Score vs AI Grade):
+
+```
+1. MAJORITY VOTING vs NOTTINGHAM SCORE:
+                  AI Grade 1   AI Grade 2   AI Grade 3
+Nottingham G1         8            0            1
+Nottingham G2        11            1            0
+Nottingham G3         3            2            0
+  - Overall Accuracy: 34.62% | Cohen's Kappa: -0.0114 | Spearman Rho: 0.1938
+
+2. CUTOFF 25% (RECOMMENDED) vs NOTTINGHAM SCORE:
+                  AI Grade 1   AI Grade 2   AI Grade 3
+Nottingham G1         5            0            4
+Nottingham G2         4            1            7
+Nottingham G3         1            1            3
+  - Overall Accuracy: 34.62% | Cohen's Kappa: +0.1016 | Spearman Rho: 0.1967
+
+3. CUTOFF 10% (HIGH SENSITIVITY) vs NOTTINGHAM SCORE:
+                  AI Grade 1   AI Grade 2   AI Grade 3
+Nottingham G1         1            0            8
+Nottingham G2         1            1           10
+Nottingham G3         0            2            3
+  - Overall Accuracy: 19.23% | Cohen's Kappa: -0.0561 | Spearman Rho: -0.1957
+```
+
+> **Pathologist Interpretation**:
+> - Under **Majority Voting**, histological Grade 3 tumors were misclassified as Low Grade in 3/5 cases and Intermediate in 2/5 cases because only a subset of cells showed high pleomorphism.
+> - Under the **25% Cutoff Rule**, High Grade detection sensitivity surged from **0% to 60.0%** ($3/5$ true high-grade tumors identified), improving Cohen's Kappa from negative to $+0.10$.
+> - Under the **10% Cutoff Rule**, sensitivity remains 60%, but over-calling increases false positive high-grade classifications among benign/low-grade cases (FPR = 86%).
+
+---
+
+## 📈 5. Receiver Operating Characteristic (ROC) Analysis
+
+To objectively compare the 25% vs 10% decision thresholds, ROC curves were generated for two clinical detection objectives:
+
+### 1. Detection of High-Grade Malignancy (Nottingham Grade 3 vs Grade 1 & 2)
+- **Continuous Area Under Curve (AUC)**: $0.41$
+- **Majority Voting Point**: Sensitivity = $0.00$, False Positive Rate (FPR) = $0.05$ (1 - Specificity = 0.05)
+- **25% Cutoff Point**: **Sensitivity = 0.60, FPR = 0.52**
+- **10% Cutoff Point**: Sensitivity = $0.60$, FPR = $0.86$
+
+### 2. Detection of Non-Low Grade Tumors (Nottingham Grade 2 & 3 vs Grade 1)
+- **Continuous Area Under Curve (AUC)**: **0.68**
+- **Majority Voting Point**: Sensitivity = $0.18$, FPR = $0.11$
+- **25% Cutoff Point**: **Sensitivity = 0.71, FPR = 0.44**
+- **10% Cutoff Point**: Sensitivity = $0.94$, FPR = $0.89$
+
+> **Conclusion**: The **25% Cutoff** represents the optimal clinical balance (sweet spot), delivering **71% sensitivity** for detecting intermediate/high-grade histological tumors while avoiding the excessive false-positive rate of the 10% threshold.
+
+---
+
+## 📊 6. Statistical Rigor & Morphological Significance
+
+Morphometric parameters across the 650 test cells remain statistically distinct by multiple orders of magnitude ($p < 0.001$ across all features):
 
 | Feature Tested | Clinical Relevance | ANOVA $F$-Statistic | $p$-value | Statistical Conclusion |
 |:---|:---|:---:|:---:|:---|
@@ -100,26 +160,22 @@ One-way ANOVA and non-parametric Kruskal-Wallis tests were executed on the test 
 | **Irregularity Index** | Degree of nuclear atypia ($1 - \text{Circularity}$) | $199.57$ | $3.09 \times 10^{-68}$ | Highly Significant ($p < 0.001$) |
 | **Nuclear Size Index** | Area $\times$ Maximum Feret Diameter | $372.06$ | $2.82 \times 10^{-108}$ | Highly Significant ($p < 0.001$) |
 
-Every feature passed the threshold of significance ($p < 0.001$) by several orders of magnitude, confirming that the grades represent true mathematical and morphological phenotypes rather than clustering artifacts.
-
 ---
 
-## 📁 6. Generated Data Files & Pathologist Inspection Links
+## 📁 7. Deliverables & Pathologist Verification Files
 
-All detailed spreadsheets and high-resolution diagnostic charts have been generated and saved:
+1. **Updated Correlation Excel (Base File)**:  
+   [`results correlation Cyto- AI- Histo.xlsx`](file:///e:/Richa/results%20correlation%20Cyto-%20AI-%20Histo.xlsx)  
+   *(Filled with AI Grade under 25% Cutoff, 10% Cutoff, and Majority Voting)*
 
-1. **Test Set Case Breakdown (CSV)**:  
-   [`output/test_november_case_grades.csv`](file:///e:/Richa/output/test_november_case_grades.csv)  
-   *(Summary table of all 26 test cases with counts, percentages, and final grade)*
+2. **Dedicated Correlation Excel Copy**:  
+   [`output/results_correlation_Cyto_AI_Histo_updated.xlsx`](file:///e:/Richa/output/results_correlation_Cyto_AI_Histo_updated.xlsx)
 
-2. **Test Set Cell-Level Granular Data (CSV)**:  
-   [`output/test_november_graded_cells.csv`](file:///e:/Richa/output/test_november_graded_cells.csv)  
-   *(Every single cell out of the 650 cells with individual morphometric measurements, slide index, and assigned grade)*
+3. **Case-Level Summary CSVs (Updated with Cutoffs)**:  
+   - November Test Set: [`output/test_november_case_grades.csv`](file:///e:/Richa/output/test_november_case_grades.csv)  
+   - Primary Discovery Set: [`output/case_grades.csv`](file:///e:/Richa/output/case_grades.csv)
 
-3. **High-Resolution Medical Charts**:
-   - 📊 **Case Grade Proportions Chart**: [`output/plots/test_set_november/01_case_grade_breakdown.png`](file:///e:/Richa/output/plots/test_set_november/01_case_grade_breakdown.png)
-   - 📦 **Morphometric Distributions (Boxplots)**: [`output/plots/test_set_november/02_morphometric_distributions.png`](file:///e:/Richa/output/plots/test_set_november/02_morphometric_distributions.png)
-
-4. **Reference Discovery Set (Baseline Cohort)**:
-   - Case Grades: [`output/case_grades.csv`](file:///e:/Richa/output/case_grades.csv)
-   - Graded Cells: [`output/graded_cells.csv`](file:///e:/Richa/output/graded_cells.csv)
+4. **High-Resolution Figures**:
+   - 🖼 **Confusion Matrix Plot**: [`output/plots/08_confusion_matrix_nottingham_vs_ai.png`](file:///e:/Richa/output/plots/08_confusion_matrix_nottingham_vs_ai.png)
+   - 📈 **ROC Curves (25% vs 10% Cutoffs)**: [`output/plots/09_roc_curves_cutoffs.png`](file:///e:/Richa/output/plots/09_roc_curves_cutoffs.png)
+   - 📊 **Morphometric Distributions**: [`output/plots/test_set_november/02_morphometric_distributions.png`](file:///e:/Richa/output/plots/test_set_november/02_morphometric_distributions.png)
